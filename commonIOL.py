@@ -63,43 +63,82 @@ class IOLClient(CommonBroker):
         
         response = requests.get(url, params=payload, headers=headers)
         response.raise_for_status()
-        return response.json()
+        aConvertir = response.json()
+        # Los dividendos van aparte, pues la API de IOL retorna todo null si los buscamos por número
+        # Hermoso IOL <3
+        # TODO: Manejar dividendos aparte
+        numeros = []
+        dividendos = []
+        for operacion in aConvertir:
+            if operacion["tipo"] == "Pago de Dividendos":
+                dividendos.append(operacion)
+            else:
+                numeros.append(operacion["numero"])
+        operaciones = []
+        for numero in numeros:
+            operaciones.append(self.obtener_operacion_completa(numero).json())
+        
+        return operaciones
+        
+        
+    
+    # En IOL debemos hacer una segunda API Call por cada operación para obtener la operación completa
+    # Junto con su tipo de moneda y todo lo demás.
+    def obtener_operacion_completa(self, numero):
+        token = self._asegurar_token_valido()
+        url = f"https://api.invertironline.com/api/v2/operaciones/{numero}"
+        headers = {"Authorization": f"Bearer {token}"}
+        response = requests.get(url, headers=headers)
+        response.raise_for_status()
+        return response
 
     def obtener_simbolo(self, operacion: Dict[str, Any]) -> str:
         return operacion["simbolo"].split()[0]
 
     def obtener_cantidad(self, operacion: Dict[str, Any]) -> int:
-        cantidad = operacion.get("cantidadOperada")
-        if cantidad is None:
-            return 1  # Dividendos dan cantidad null
-        return int(cantidad)
+        if operacion.get("operaciones"):
+            return operacion["operaciones"][0]["cantidad"]
+        return operacion.get("cantidad", 0)
 
     def obtener_precio(self, operacion: Dict[str, Any]) -> float:
-        precio = operacion.get("precioOperado")
-        if precio is None:
-            return operacion.get("montoOperado") # type: ignore # Dividendos dan precio null
-        return float(precio)
+        if operacion.get("operaciones"):
+            return float(operacion["operaciones"][0]["precio"])
+        return float(operacion.get("precio", 0))
+
 
     def obtener_fecha(self, operacion: Dict[str, Any]) -> str:
-        return operacion.get("fechaOperada") # type: ignore
+        """Obtiene la fecha y la retorna como YYYY-MM-DD"""
+        fecha = operacion.get("fechaOperado", "")
+        return fecha
+
 
     def obtener_tipo(self, operacion: Dict[str, Any]) -> str:
         tipo_map = {
-            "Compra": "BUY",
-            "Venta": "SELL",
-            "Pago de Dividendos": "DIVIDEND"
+            "compra": "BUY",
+            "venta": "SELL",
+            "pago_dividendos": "DIVIDEND"
         }
-        return tipo_map.get(operacion["tipo"], "UNKNOWN")
+        return tipo_map.get(operacion["tipo"].lower(), "UNKNOWN")
+
 
     def obtener_moneda(self, operacion: Dict[str, Any]) -> str:
-        simbolo = operacion.get("simbolo", "")
-        return "USD" if simbolo.endswith("US$") else "ARS"
+        return "ARS" if operacion["moneda"].lower() == "peso_argentino" else "USD"
         
 
     def obtener_mercado(self, operacion: Dict[str, Any]) -> str:
-        if operacion["mercado"] == "BCBA":
-            return "ARG"
-        return "USA"
-
+        return "ARG" if operacion["mercado"].lower() == "bcba" else "USA"
     
+    def obtener_account_id(self) -> str:
+        
+        token = self._asegurar_token_valido()
+        url = "https://api.invertironline.com/api/v2/datos-perfil"
+        headers = {"Authorization": f"Bearer {token}"}
+        
+        response = requests.get(url, headers=headers)
+        response.raise_for_status()
+        return response.json()["numeroCuenta"]
+
+    class IOL_manejador_dividendos():
+        pass
+        
     

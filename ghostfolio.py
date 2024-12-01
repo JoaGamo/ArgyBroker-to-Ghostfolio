@@ -1,8 +1,10 @@
 import requests
 class GhostfolioClient():
-    def __init__(self, security_token, server):
+    def __init__(self, security_token, server, account_id):
         self.server = self.corregir_url_server(server)
         self.token = self.obtener_api_key(security_token, self.server)
+        self.operaciones_fallidas = []
+        self.account_id = account_id
         
     def corregir_url_server(self, server):
         if server.endswith('/'):
@@ -45,6 +47,7 @@ class GhostfolioClient():
         }
         body = {
                 "activities": [{
+                    "accountId": self.account_id,
                     "currency": moneda,
                     "dataSource": "YAHOO",
                     "date": fecha,
@@ -57,11 +60,21 @@ class GhostfolioClient():
         }
         response = requests.post(url, headers=headers, json=body)
         responseStatus = response.status_code
-        if responseStatus == 201:
-            print("Operación insert correcta")
-            return True
-        if responseStatus == 400:
-            print("Error en la operación")
-            print(response.json())
-            return False
+        if response.status_code == 201:
+                    print("Operación insert correcta")
+                    return True
+                
+        # Store failed operation
+        error_info = {
+            "symbol": simbolo,
+            "date": fecha,
+            "error": response.json() if response.status_code == 400 else str(response.status_code),
+            "request": body
+        }
+        self.operaciones_fallidas.append(error_info)
+        print(f"Error en la operación: {simbolo}")
         return False
+    
+    def obtener_operaciones_fallidas(self) -> list:
+        """Retorna lista de operaciones fallidas"""
+        return self.operaciones_fallidas

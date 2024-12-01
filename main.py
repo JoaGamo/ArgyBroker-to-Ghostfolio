@@ -24,13 +24,22 @@ def actualizar_portfolio(client, ghostfolio):
         mercado = client.obtener_mercado(operacion)
         ghostfolio.insertar_operacion(simbolo, cantidad, precio, fecha, tipo, moneda, mercado)
 
+    fallas = ghostfolio.obtener_operaciones_fallidas()
+    if fallas:
+        print("Operaciones fallidas:")
+        for falla in fallas:
+            print("------------------")
+            print(f"Símbolo: {falla['symbol']}, Fecha: {falla['date']}")
+            print(f"Error: {falla['error']}\n")
+    
 def main():
     load_dotenv()
     client = create_client()
     ghostfolio = GhostfolioClient(
         security_token=os.getenv("GHOSTFOLIO_SECURITY_TOKEN"),
-        server=os.getenv("GHOSTFOLIO_SERVER")
-    )
+        server=os.getenv("GHOSTFOLIO_SERVER"),
+        account_id=client.obtener_account_id()
+        )
     actualizar_portfolio(client, ghostfolio)
 
 if __name__ == "__main__":
