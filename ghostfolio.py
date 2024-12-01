@@ -20,7 +20,7 @@ class GhostfolioClient():
         response.raise_for_status()
         return response.json()["authToken"]
 
-    def insertar_operacion(self, simbolo: str, cantidad: int, precio: str, fecha: str, tipo: str, moneda: str, mercado: str = "ARG"):
+    def insertar_operacion(self, simbolo: str, cantidad: int, precio: float, fecha: str, tipo: str, moneda: str, mercado: str = "ARG"):
         """Insertamos una actividad en el portfolio del usuario, sea venta u compra.
 
         Args:
@@ -28,7 +28,7 @@ class GhostfolioClient():
             al final, ej MSFT se convierte en MSFT.BA (si la transacción fue en pesos argentinos) para indicar que
             es el CEDEAR
             cantidad (int): Cantidad de papeles comprados
-            precio (string): Precio unitario de la operación
+            precio (float): Precio unitario de la operación
             fecha (string): Fecha de la operación en formato YYYY-MM-DD
             tipo (string): Tipo de operación, valores válidos BUY | DIVIDEND | FEE | INTEREST | ITEM | LIABILITY | SELL
             moneda (string): Moneda de la operación, por ejemplo "USD" o "ARS"
