@@ -1,2 +1,2 @@
-# Portfolio-IOL-GoogleFinance
-Sincroniza tu portfolio de InvertirOnline con Google Finance mediante la API
+# Portfolio-IOL-GhostFolio
+Sincroniza tu portfolio de InvertirOnline con Ghostfolio mediante la API de ambos
