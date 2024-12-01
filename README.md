@@ -1,2 +1,2 @@
-# Portfolio-IOL-GhostFolio
-Sincroniza tu portfolio de InvertirOnline con Ghostfolio mediante la API de ambos
+# Broker a Ghostfolio
+Este es un proyecto diseñado para importar los datos de tu broker hacia Ghostfolio, un software de código abierto para visualizar tu portfolio
