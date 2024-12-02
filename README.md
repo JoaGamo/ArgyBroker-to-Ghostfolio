@@ -1,7 +1,8 @@
 # Broker a Ghostfolio
 
-Este es un proyecto diseñado para importar los datos de tu broker hacia [Ghostfolio](https://github.com/ghostfolio/ghostfolio), un software de código abierto para visualizar tu portfolio
-Por gusto personal mío, solo soporta importar desde IOL, pero puedes agregar un nuevo broker fácilmente
+Este es un proyecto diseñado para importar los datos de tu broker hacia [Ghostfolio](https://github.com/ghostfolio/ghostfolio), un software de código abierto para visualizar tu portfolio.
+
+Por gusto mío, solo soporta importar desde IOL (InvertirOnline), pero puedes agregar un nuevo broker fácilmente.
 
 ## Pasos para usar
 
@@ -13,4 +14,4 @@ Ejecuta el script con `python3 main.py`
 Si pusiste un "fecha_desde" muy atrás, el script tardará un tiempo
 Al finalizar, te emitirá por consola todos los errores que haya encontrado, si es que hubo, esos datos deberás cargarlos manualmente.
 
-> [!NOTE] Gracias a la API de IOL, este script no exportará tus dividendos
+> Nota: Gracias a la API de IOL, este script no exportará tus dividendos.
