@@ -121,10 +121,10 @@ class IOLClient(CommonBroker):
         tipo_map = {
 
             "compra": "BUY",
-            "suscripcionFCI": "BUY",
+            "suscripcionfci": "BUY",
 
             "venta": "SELL", 
-            "rescateFCI": "SELL",
+            "rescatefci": "SELL",
 
             "pago_dividendos": "DIVIDEND"
         }

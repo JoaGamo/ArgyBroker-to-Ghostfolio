@@ -61,7 +61,7 @@ class GhostfolioClient():
         response = requests.post(url, headers=headers, json=body)
         responseStatus = response.status_code
         if response.status_code == 201:
-                    print("Operación insert correcta")
+                    print(f"Operación insert correcta {simbolo} {cantidad}x${precio}")
                     return True
                 
         # Store failed operation
@@ -74,7 +74,7 @@ class GhostfolioClient():
         self.operaciones_fallidas.append(error_info)
         print(f"Error en la operación: {simbolo}")
         
-        if response.json().contains("is not valid for the specified data source (\"YAHOO\")"):
+        if "is not valid for the specified data source (\"YAHOO\")" in str(response.json()):
             # Inserción manual
             newBody = {
                 "activities": [{
@@ -88,7 +88,8 @@ class GhostfolioClient():
                     "type": tipo,
                     "unitPrice": precio
                 }],
-        }
+            }
+            newResponse = requests.post(url, headers=headers, json=newBody)
         
         
         return False
