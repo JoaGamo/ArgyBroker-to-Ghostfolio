@@ -1,5 +1,8 @@
 # Broker a Ghostfolio
 
+> [!IMPORTANT]
+> Debido al estado actual de Ghostfolio, no he continuado este script. [Ver discusión aquí](https://github.com/ghostfolio/ghostfolio/discussions/3666). En resumen, las acciones en pesos argentinos "ARS" son calculados incorrectamente, haciendo inservible este software.
+
 Este es un proyecto diseñado para importar los datos de tu broker hacia [Ghostfolio](https://github.com/ghostfolio/ghostfolio), un software de código abierto para visualizar tu portfolio.
 
 Por gusto mío, solo soporta importar desde IOL (InvertirOnline), pero puedes agregar un nuevo broker fácilmente.
@@ -19,4 +22,3 @@ Al finalizar, te emitirá por consola todos los errores que haya encontrado, si 
 
 > Nota: Gracias a la API de IOL, este script no exportará tus dividendos.
 
-Debido al estado actual de Ghostfolio, no he continuado este script. [Ver discusión aquí](https://github.com/ghostfolio/ghostfolio/discussions/3666)
