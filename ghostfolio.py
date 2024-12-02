@@ -73,6 +73,24 @@ class GhostfolioClient():
         }
         self.operaciones_fallidas.append(error_info)
         print(f"Error en la operación: {simbolo}")
+        
+        if response.json().contains("is not valid for the specified data source (\"YAHOO\")"):
+            # Inserción manual
+            newBody = {
+                "activities": [{
+                    "accountId": self.account_id,
+                    "currency": moneda,
+                    "dataSource": "MANUAL",
+                    "date": fecha,
+                    "fee": 0,
+                    "quantity": cantidad,
+                    "symbol": simbolo,
+                    "type": tipo,
+                    "unitPrice": precio
+                }],
+        }
+        
+        
         return False
     
     def obtener_operaciones_fallidas(self) -> list:

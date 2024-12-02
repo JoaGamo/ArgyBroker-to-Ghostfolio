@@ -61,6 +61,12 @@ class CommonBroker(ABC):
     def obtener_mercado(self, operacion: Dict[str, Any]) -> str:
         """Obtiene el mercado de la operación (ARG|USA)"""
         pass
+    
+    @abstractmethod
+    def obtener_comision(self, operacion: Dict[str, Any]) -> float:
+        """Obtiene la comisión (impuesto del broker) de la operación"""
+        pass
+    
     @abstractmethod
     def obtener_account_id(self) -> str:
         """Obtiene el account_id del broker"""
