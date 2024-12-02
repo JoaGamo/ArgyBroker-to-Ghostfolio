@@ -144,18 +144,8 @@ class IOLClient(CommonBroker):
             return operacion['arancelesUSD']
         else:
             return operacion['arancelesARS']
-        
-    
-    def obtener_account_id(self) -> str:
-        
-        token = self._asegurar_token_valido()
-        url = "https://api.invertironline.com/api/v2/datos-perfil"
-        headers = {"Authorization": f"Bearer {token}"}
-        
-        response = requests.get(url, headers=headers)
-        response.raise_for_status()
-        return response.json()["numeroCuenta"]
 
+        
     class IOL_manejador_dividendos(CommonBroker):
         def __init__(self, dividendos):
             self.dividendos = dividendos
@@ -197,9 +187,6 @@ class IOLClient(CommonBroker):
         def obtener_comision(self, operacion: Dict[str, Any]) -> float:
             return 0
         
-        def obtener_account_id(self) -> str:
-            raise NotImplementedError
-
         def obtener_operaciones(self) -> List[Dict[str, Any]]:
             raise NotImplementedError
 

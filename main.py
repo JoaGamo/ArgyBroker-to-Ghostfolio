@@ -38,7 +38,7 @@ def main():
     ghostfolio = GhostfolioClient(
         security_token=os.getenv("GHOSTFOLIO_SECURITY_TOKEN"),
         server=os.getenv("GHOSTFOLIO_SERVER"),
-        account_id=client.obtener_account_id()
+        account_id=os.getenv("GHOSTFOLIO_ACCOUNT_ID")
         )
     actualizar_portfolio(client, ghostfolio)
 

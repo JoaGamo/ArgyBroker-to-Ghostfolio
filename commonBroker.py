@@ -67,7 +67,3 @@ class CommonBroker(ABC):
         """Obtiene la comisión (impuesto del broker) de la operación"""
         pass
     
-    @abstractmethod
-    def obtener_account_id(self) -> str:
-        """Obtiene el account_id del broker"""
-        pass

@@ -64,7 +64,7 @@ class GhostfolioClient():
                     print(f"Operación insert correcta {simbolo} {cantidad}x${precio}")
                     return True
                 
-        # Store failed operation
+        # Almacenamos log de operación fallida
         error_info = {
             "symbol": simbolo,
             "date": fecha,
@@ -85,11 +85,14 @@ class GhostfolioClient():
                     "fee": 0,
                     "quantity": cantidad,
                     "symbol": simbolo,
-                    "type": tipo,
+                    "type": "ITEM",
                     "unitPrice": precio
                 }],
             }
             newResponse = requests.post(url, headers=headers, json=newBody)
+            if newResponse.ok:
+                print(f"Operación insert correcta {simbolo} {cantidad}x${precio}")
+                return True
         
         
         return False
