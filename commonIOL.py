@@ -105,13 +105,6 @@ class IOLClient(CommonBroker):
         return operacion.get("cantidad", 0)
 
     def obtener_precio(self, operacion: Dict[str, Any]) -> float:
-        
-        print("--------")
-        print(operacion)
-        print(operacion.get("operaciones"))
-        print(operacion["operaciones"][0]["precio"])
-        print(operacion.get("precio", 0))
-        print("--------")
         if operacion.get("operaciones"):
             
             return float(operacion["operaciones"][0]["precio"])
